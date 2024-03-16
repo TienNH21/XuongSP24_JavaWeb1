@@ -28,6 +28,7 @@
     </content>
     <orderEntry type="jdk" jdkName="17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.microsoft.sqlserver:mssql-jdbc:11.2.3.jre17" level="project" />
     <orderEntry type="library" name="Maven: jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: jakarta.el:jakarta.el-api:5.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1" level="project" />

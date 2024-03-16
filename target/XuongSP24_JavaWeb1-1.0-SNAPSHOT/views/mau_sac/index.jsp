@@ -25,7 +25,7 @@
             <td>${ms.ten}</td>
             <td>${ms.trangThai}</td>
             <td>
-                <a href="/XuongSP24_JavaWeb1_war_exploded/mau-sac/edit?id=${ms.id}">Update</a>
+                <a href="#">Update</a>
             </td>
             <td>
                 <a href="/XuongSP24_JavaWeb1_war_exploded/mau-sac/delete?id=${ms.id}">Delete</a>

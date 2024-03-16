@@ -11,8 +11,8 @@ public class MauSacRepository {
     public MauSacRepository()
     {
         this.list = new ArrayList<>();
-        this.list.add(new MauSac(1, "#ede", "Yellow", 1));
-        this.list.add(new MauSac(2, "#000", "Black", 1));
+        this.list.add(new MauSac(1, "ede", "Yellow", 1));
+        this.list.add(new MauSac(2, "000", "Black", 1));
     }
 
     public List<MauSac> getList() {
@@ -49,5 +49,17 @@ public class MauSacRepository {
                 return ;
             }
         }
+    }
+
+    public MauSac findById(int id)
+    {
+        for (int i = 0; i < this.list.size(); i++) {
+            MauSac oldMauSac = this.list.get(i);
+            if (oldMauSac.getId() == id) {
+                return oldMauSac;
+            }
+        }
+
+        return null;
     }
 }
