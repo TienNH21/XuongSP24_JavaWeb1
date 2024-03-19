@@ -9,7 +9,7 @@ public class DBContext {
     private static final String PASSWORD = "Aa@123456";
     private static final String SERVER = "localhost";
     private static final String PORT = "1433";
-    private static final String DATABASE_NAME = "DB_SOF203";
+    private static final String DATABASE_NAME = "SOF203";
     private static final boolean USING_SSL = true;
 
     private static String CONNECT_STRING;
