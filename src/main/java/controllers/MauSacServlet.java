@@ -46,7 +46,7 @@ public class MauSacServlet extends HttpServlet {
     public void doPost(
         HttpServletRequest request,
         HttpServletResponse response
-    ) {
+    ) throws IOException {
         String uri = request.getRequestURI();
         if (uri.contains("store")) {
             this.store(request, response);
@@ -82,7 +82,7 @@ public class MauSacServlet extends HttpServlet {
             request.getRequestDispatcher("/views/mau_sac/edit.jsp")
                     .forward(request, response);
         } else {
-            response.sendRedirect("/XuongSP24_JavaWeb1_war_exploded/mau-sac/index");
+            response.sendRedirect("/mau-sac/index");
         }
     }
 
@@ -95,17 +95,27 @@ public class MauSacServlet extends HttpServlet {
             this.msRepo.delete(ms);
         }
 
-        response.sendRedirect("/XuongSP24_JavaWeb1_war_exploded/mau-sac/index");
+        response.sendRedirect("/mau-sac/index");
     }
 
     public void store(HttpServletRequest request, HttpServletResponse response)
-    {
-
+        throws IOException {
+        String ma = request.getParameter("ma");
+        String ten = request.getParameter("ten");
+        int trangThai = Integer.parseInt(request.getParameter("trangThai"));
+        MauSac ms = new MauSac(0, ma, ten, trangThai);
+        this.msRepo.insert(ms);
+        response.sendRedirect("/mau-sac/index");
     }
 
-    public void update(HttpServletRequest request, HttpServletResponse response)
-    {
-
+    public void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String ma = request.getParameter("ma");
+        String ten = request.getParameter("ten");
+        int trangThai = Integer.parseInt(request.getParameter("trangThai"));
+        MauSac ms = new MauSac(id, ma, ten, trangThai);
+        this.msRepo.update(ms);
+        response.sendRedirect("/mau-sac/index");
     }
 
 }

@@ -6,7 +6,7 @@
     <title>Title</title>
 </head>
 <body>
-<a href="#">Thêm mới</a>
+<a href="/mau-sac/create">Thêm mới</a>
 <table>
     <thead>
     <tr>
@@ -25,10 +25,10 @@
             <td>${ms.ten}</td>
             <td>${ms.trangThai}</td>
             <td>
-                <a href="#">Update</a>
+                <a href="/mau-sac/edit?id=${ms.id}">Update</a>
             </td>
             <td>
-                <a href="/XuongSP24_JavaWeb1_war_exploded/mau-sac/delete?id=${ms.id}">Delete</a>
+                <a href="/mau-sac/delete?id=${ms.id}">Delete</a>
             </td>
         </tr>
     </c:forEach>

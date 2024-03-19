@@ -1,7 +1,7 @@
 package entities;
 
 public class MauSac {
-    private int id;
+    private Integer id;
     private String ma;
     private String ten;
     private int trangThai;
@@ -9,7 +9,7 @@ public class MauSac {
     public MauSac() {
     }
 
-    public MauSac(int id, String ma, String ten, int trangThai) {
+    public MauSac(Integer id, String ma, String ten, int trangThai) {
         this.id = id;
         this.ma = ma;
         this.ten = ten;
