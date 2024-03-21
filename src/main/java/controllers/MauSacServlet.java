@@ -61,10 +61,10 @@ public class MauSacServlet extends HttpServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        String ma = request.getParameter("ma").trim();
-        String ten = request.getParameter("ten").trim();
-        String tts = request.getParameter("trangThai").trim();
-        Integer trangThai = tts == null ? null : Integer.parseInt(tts);
+        String ma = request.getParameter("ma") != null ? request.getParameter("ma").trim() : "";
+        String ten = request.getParameter("ten") != null ? request.getParameter("ten").trim() : "";
+        String tts = request.getParameter("trangThai") != null ? request.getParameter("trangThai").trim() : "";
+        Integer trangThai = tts.length() != 0 ? Integer.parseInt(tts) : null;
 
         List<MauSac> ds = this.msRepo.findAll(ma, ten, trangThai);
         request.setAttribute("data", ds);

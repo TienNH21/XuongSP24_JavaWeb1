@@ -7,6 +7,41 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 </head>
 <body>
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Bán hàng</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Quản lý Sản phẩm
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Sản phẩm</a></li>
+                        <li><a class="dropdown-item" href="#">Sản phẩm chi tiết</a></li>
+                        <li><a class="dropdown-item" href="/mau-sac/index">Màu sắc</a></li>
+                        <li><a class="dropdown-item" href="#">Kích thước</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Quản lý Nhân viên</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Quản lý Khách hàng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Quản lý Hóa đơn</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <div class="mt-5 col-10 offset-1">
     <form action="/mau-sac/index" method="GET">
