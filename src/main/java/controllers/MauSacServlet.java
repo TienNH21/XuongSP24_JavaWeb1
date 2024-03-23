@@ -10,6 +10,7 @@ import repositories.MauSacRepository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @WebServlet({
     "/mau-sac/index",
@@ -61,26 +62,32 @@ public class MauSacServlet extends HttpServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        String ma = request.getParameter("ma") != null ? request.getParameter("ma").trim() : "";
-        String ten = request.getParameter("ten") != null ? request.getParameter("ten").trim() : "";
-        String tts = request.getParameter("trangThai") != null ? request.getParameter("trangThai").trim() : "";
-        Integer trangThai = tts.length() != 0 ? Integer.parseInt(tts) : null;
+//        String ma = request.getParameter("ma") != null ? request.getParameter("ma").trim() : "";
+//        String ten = request.getParameter("ten") != null ? request.getParameter("ten").trim() : "";
+//        String tts = request.getParameter("trangThai") != null ? request.getParameter("trangThai").trim() : "";
+//        Integer trangThai = tts.length() != 0 ? Integer.parseInt(tts) : null;
+//        List<MauSac> ds = this.msRepo.findAll(ma, ten, trangThai);
 
-        List<MauSac> ds = this.msRepo.findAll(ma, ten, trangThai);
+//        if (ma.length() != 0) {
+//            request.setAttribute("ma", ma);
+//        }
+//
+//        if (ten.length() != 0) {
+//            request.setAttribute("ten", ten);
+//        }
+//
+//        if (trangThai != null) {
+//            request.setAttribute("trangThai", trangThai);
+//        }
+
+        String pageS = request.getParameter("page");
+        String limitS = request.getParameter("limit");
+        int page = pageS == null || pageS .trim().length() == 0 ? 1 : Integer.parseInt(pageS);
+        int limit = limitS == null || limitS .trim().length() == 0 ? 10 : Integer.parseInt(limitS);
+        List<MauSac> ds = this.msRepo.paging(Optional.of(page), Optional.of(limit));
+        int totalPage = this.msRepo.count() / limit + 1;
         request.setAttribute("data", ds);
-
-        if (ma.length() != 0) {
-            request.setAttribute("ma", ma);
-        }
-
-        if (ten.length() != 0) {
-            request.setAttribute("ten", ten);
-        }
-
-        if (trangThai != null) {
-            request.setAttribute("trangThai", trangThai);
-        }
-
+        request.setAttribute("totalPage", totalPage);
         request.getRequestDispatcher("/views/mau_sac/index.jsp")
             .forward(request, response);
     }

@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MauSacRepository {
     private List<MauSac> list;
@@ -173,5 +174,51 @@ public class MauSacRepository {
         }
 
         return ds;
+    }
+
+    public List<MauSac> paging(Optional<Integer> optionPage, Optional<Integer> optionLimit)
+    {
+        int limit = optionLimit.isPresent() ? optionLimit.get() : 10;
+        int page = optionPage.isPresent() ? optionPage.get() : 1;
+
+        ArrayList<MauSac> result = new ArrayList<>();
+        String sql = "SELECT * FROM MauSac ORDER BY ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try {
+            PreparedStatement ps = this.conn.prepareStatement(sql);
+            int offset = (page - 1) * limit;
+            ps.setInt(1, offset);
+            ps.setInt(2, limit);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String ten = rs.getString("ten");
+                String ma = rs.getString("ma");
+                int trangThai = rs.getInt("trangThai");
+                MauSac ms = new MauSac(id, ma, ten, trangThai);
+                result.add(ms);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public int count()
+    {
+        String sql = "SELECT COUNT(ID) AS Total FROM MauSac";
+        try {
+            PreparedStatement ps = this.conn.prepareStatement(sql);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            rs.next();
+            int total = rs.getInt("Total");
+            return total;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return -1;
     }
 }

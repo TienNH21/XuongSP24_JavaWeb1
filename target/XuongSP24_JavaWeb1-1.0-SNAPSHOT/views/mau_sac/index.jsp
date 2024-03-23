@@ -106,6 +106,20 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     </table>
+
+    <nav aria-label="">
+        <ul class="pagination pagination-md">
+            <c:forEach begin="1" end="${ totalPage }" var="page">
+                <c:if test="${ page < 4 || page > totalPage - 3 }">
+                    <li class="page-item"><a class="page-link" href="/mau-sac/index?page=${page}">${page}</a></li>
+                </c:if>
+
+                <c:if test="${ totalPage > 6 }">
+                    <li class="page-item"><span class="page-link" href="">...</span></li>
+                </c:if>
+            </c:forEach>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>
