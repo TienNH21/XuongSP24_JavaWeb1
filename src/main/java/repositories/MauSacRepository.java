@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class MauSacRepository {
-    private List<MauSac> list;
     private Connection conn;
 
     public MauSacRepository()
@@ -21,10 +20,6 @@ public class MauSacRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        this.list = new ArrayList<>();
-        this.list.add(new MauSac(1, "ede", "Yellow", 1));
-        this.list.add(new MauSac(2, "000", "Black", 1));
     }
 
     public List<MauSac> findAll()
@@ -220,5 +215,66 @@ public class MauSacRepository {
         }
 
         return -1;
+    }
+
+
+    public List<MauSac> findAll(int page, int limit, String ma, String ten, Integer trangThai)
+    {
+        ArrayList<MauSac> ds = new ArrayList<>();
+        String sql = "SELECT * FROM MauSac";
+        if (ma.length() != 0 || ten.length() != 0 || trangThai != null) {
+            sql += " WHERE ";
+        }
+
+        if (ma.length() != 0) {
+            sql += " Ma LIKE ? ";
+        }
+
+        if (ten.length() != 0) {
+            sql += ma.length() != 0 ? " AND " : "";
+            sql += " Ten LIKE ? ";
+        }
+
+        if (trangThai != null) {
+            sql += (ma.length() != 0 || ten.length() != 0) ? " AND " : "";
+            sql += " TrangThai = ? ";
+        }
+
+        sql += " ORDER BY ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try {
+            PreparedStatement ps = this.conn.prepareStatement(sql);
+            int paramIndex = 1;
+            if (ma.length() != 0) {
+                ps.setString(paramIndex++, "%" + ma + "%");
+            }
+
+            if (ten.length() != 0) {
+                ps.setString(paramIndex++, "%" + ten + "%");
+            }
+
+            if (trangThai != null) {
+                ps.setInt(paramIndex++, trangThai);
+            }
+
+            int offset = (page - 1) * limit;
+            ps.setInt(paramIndex++, offset);
+            ps.setInt(paramIndex++, limit);
+
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String ten1 = rs.getString("ten");
+                String ma1 = rs.getString("ma");
+                int trangThai1 = rs.getInt("trangThai");
+                MauSac ms = new MauSac(id, ma1, ten1, trangThai1);
+                ds.add(ms);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ds;
     }
 }
