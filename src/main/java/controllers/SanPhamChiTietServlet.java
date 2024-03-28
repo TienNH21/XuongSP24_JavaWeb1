@@ -2,6 +2,7 @@ package controllers;
 
 import entities.SanPham;
 import entities.SanPhamChiTiet;
+import entities.custom_entity.SanPhamChiTietCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,10 +24,12 @@ import java.util.List;
 })
 public class SanPhamChiTietServlet extends HttpServlet {
     private SanPhamChiTietRepository spctRepo;
+    private SanPhamRepository spRepo;
 
     public SanPhamChiTietServlet()
     {
         this.spctRepo = new SanPhamChiTietRepository();
+        this.spRepo = new SanPhamRepository();
     }
 
     public void doGet(
@@ -67,8 +70,10 @@ public class SanPhamChiTietServlet extends HttpServlet {
             response.sendRedirect("/san-pham/index");
         } else {
             int spId = Integer.parseInt(request.getParameter("san_pham_id"));
-            List<SanPhamChiTiet> ds = this.spctRepo.findBySanPham(spId);
+            List<SanPhamChiTietCustom> ds = this.spctRepo.findAllWithPropName(spId);
+            SanPham sp = this.spRepo.findById(spId);
             request.setAttribute("data", ds);
+            request.setAttribute("sanPham", sp);
             request.getRequestDispatcher("/views/san_pham_chi_tiet/index.jsp")
                     .forward(request, response);
         }

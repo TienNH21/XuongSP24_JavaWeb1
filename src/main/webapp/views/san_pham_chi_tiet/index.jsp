@@ -64,9 +64,9 @@
             <tr>
                 <td>${sp.id}</td>
                 <td>${sp.maSPCT}</td>
-                <td>${sp.idSanPham}</td>
-                <td>${sp.idMauSac}</td>
-                <td>${sp.idKichThuoc}</td>
+                <td>${sanPham.ten}</td>
+                <td>${sp.tenMauSac}</td>
+                <td>${sp.tenKichThuoc}</td>
                 <td>${sp.soLuong}</td>
                 <td>${sp.donGia}</td>
                 <td>${sp.trangThai}</td>

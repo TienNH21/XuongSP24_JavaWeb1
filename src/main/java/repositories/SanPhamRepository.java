@@ -44,4 +44,25 @@ public class SanPhamRepository {
 
         return ds;
     }
+
+    public SanPham findById(int id)
+    {
+        String sql = "SELECT * FROM SanPham WHERE ID = ?";
+        try {
+            PreparedStatement ps = this.conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            rs.next();
+            String ten = rs.getString("ten");
+            String ma = rs.getString("ma");
+            int trangThai = rs.getInt("trangThai");
+            SanPham sp = new SanPham(id, ma, ten, trangThai);
+            return sp;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
