@@ -91,7 +91,10 @@ public class MauSacServlet extends HttpServlet {
             .forward(request, response);
     }
 
-    public void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void create(
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) throws ServletException, IOException {
         request.getRequestDispatcher("/views/mau_sac/create.jsp")
                 .forward(request, response);
     }
@@ -122,8 +125,10 @@ public class MauSacServlet extends HttpServlet {
         response.sendRedirect("/mau-sac/index");
     }
 
-    public void store(HttpServletRequest request, HttpServletResponse response)
-        throws IOException {
+    public void store(
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) throws IOException {
         String ma = request.getParameter("ma");
         String ten = request.getParameter("ten");
         int trangThai = Integer.parseInt(request.getParameter("trangThai"));
