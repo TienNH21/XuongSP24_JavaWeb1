@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.MauSac;
 import entities.SanPham;
 import entities.SanPhamChiTiet;
 import entities.custom_entity.SanPhamChiTietCustom;
@@ -8,10 +9,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import repositories.MauSacRepository;
 import repositories.SanPhamChiTietRepository;
 import repositories.SanPhamRepository;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @WebServlet({
@@ -25,11 +29,13 @@ import java.util.List;
 public class SanPhamChiTietServlet extends HttpServlet {
     private SanPhamChiTietRepository spctRepo;
     private SanPhamRepository spRepo;
+    private MauSacRepository msRepo;
 
     public SanPhamChiTietServlet()
     {
         this.spctRepo = new SanPhamChiTietRepository();
         this.spRepo = new SanPhamRepository();
+        this.msRepo = new MauSacRepository();
     }
 
     public void doGet(
@@ -70,10 +76,20 @@ public class SanPhamChiTietServlet extends HttpServlet {
             response.sendRedirect("/san-pham/index");
         } else {
             int spId = Integer.parseInt(request.getParameter("san_pham_id"));
-            List<SanPhamChiTietCustom> ds = this.spctRepo.findAllWithPropName(spId);
             SanPham sp = this.spRepo.findById(spId);
+            List<SanPhamChiTiet> ds = this.spctRepo.findBySanPham(spId);
+            List<Integer> listMSId = new ArrayList<>();
+            List<Integer> listKTId = new ArrayList<>();
+            for (SanPhamChiTiet spct : ds) {
+                listMSId.add( spct.getIdMauSac() );
+                listKTId.add( spct.getIdKichThuoc() );
+            }
+
+            HashMap<Integer, String> listMS = this.msRepo.findTenByIds(listMSId);
+
             request.setAttribute("data", ds);
             request.setAttribute("sanPham", sp);
+            request.setAttribute("listMS", listMS);
             request.getRequestDispatcher("/views/san_pham_chi_tiet/index.jsp")
                     .forward(request, response);
         }

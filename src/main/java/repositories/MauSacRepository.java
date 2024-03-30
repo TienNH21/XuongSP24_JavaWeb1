@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -277,4 +278,36 @@ public class MauSacRepository {
 
         return ds;
     }
+
+    public HashMap<Integer, String> findTenByIds(List<Integer> listId)
+    {
+        HashMap<Integer, String> ds = new HashMap<>();
+        String sql = "SELECT ID, Ten FROM MauSac WHERE ID IN (";
+        for (int i = 0; i <listId.size(); i++) {
+            sql += "?";
+            sql += i == listId.size() - 1 ? "" : ",";
+        }
+
+        sql += ")";
+        System.out.println(sql);
+        try {
+            PreparedStatement ps = this.conn.prepareStatement(sql);
+            for (int i = 0; i <listId.size(); i++) {
+                ps.setInt(i+1, listId.get(i));
+            }
+
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String ten = rs.getString("Ten");
+                ds.put(id, ten);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ds;
+    }
+
 }

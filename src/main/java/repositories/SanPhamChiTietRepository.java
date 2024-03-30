@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class SanPhamChiTietRepository {
@@ -78,8 +79,6 @@ public class SanPhamChiTietRepository {
 
         return ds;
     }
-
-
 
     public List<SanPhamChiTietCustom> findAllWithPropName(int spId) {
         ArrayList<SanPhamChiTietCustom> ds = new ArrayList<>();
