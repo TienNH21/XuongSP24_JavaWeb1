@@ -1,6 +1,5 @@
 package controllers;
 
-import entities.MauSac;
 import entities.SanPham;
 import entities.SanPhamChiTiet;
 import entities.custom_entity.SanPhamChiTietCustom;
@@ -9,9 +8,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import repositories.MauSacRepository;
-import repositories.SanPhamChiTietRepository;
-import repositories.SanPhamRepository;
+import repositories.jdbc.MauSacRepository;
+import repositories.jpa.SanPhamChiTietRepository;
+import repositories.jdbc.SanPhamRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -77,19 +76,9 @@ public class SanPhamChiTietServlet extends HttpServlet {
         } else {
             int spId = Integer.parseInt(request.getParameter("san_pham_id"));
             SanPham sp = this.spRepo.findById(spId);
-            List<SanPhamChiTiet> ds = this.spctRepo.findBySanPham(spId);
-            List<Integer> listMSId = new ArrayList<>();
-            List<Integer> listKTId = new ArrayList<>();
-            for (SanPhamChiTiet spct : ds) {
-                listMSId.add( spct.getIdMauSac() );
-                listKTId.add( spct.getIdKichThuoc() );
-            }
-
-            HashMap<Integer, String> listMS = this.msRepo.findTenByIds(listMSId);
-
+            List<SanPhamChiTietCustom> ds = this.spctRepo.findAllWithPropName(spId);
             request.setAttribute("data", ds);
             request.setAttribute("sanPham", sp);
-            request.setAttribute("listMS", listMS);
             request.getRequestDispatcher("/views/san_pham_chi_tiet/index.jsp")
                     .forward(request, response);
         }

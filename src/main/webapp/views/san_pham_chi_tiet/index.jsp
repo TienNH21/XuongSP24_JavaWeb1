@@ -65,8 +65,8 @@
                 <td>${sp.id}</td>
                 <td>${sp.maSPCT}</td>
                 <td>${sanPham.ten}</td>
-                <td>${ listMS[sp.idMauSac] }</td>
-                <td>${sp.idKichThuoc}</td>
+                <td>${sp.tenMauSac}</td>
+                <td>${sp.tenKichThuoc}</td>
                 <td>${sp.soLuong}</td>
                 <td>${sp.donGia}</td>
                 <td>${sp.trangThai}</td>
