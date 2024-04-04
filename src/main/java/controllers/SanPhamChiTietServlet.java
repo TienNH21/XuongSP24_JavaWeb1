@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import repositories.jdbc.MauSacRepository;
 import repositories.jpa.SanPhamChiTietRepository;
 import repositories.jdbc.SanPhamRepository;
+import requests.spct.IndexRequest;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -71,14 +72,15 @@ public class SanPhamChiTietServlet extends HttpServlet {
             HttpServletRequest request,
             HttpServletResponse response
     ) throws ServletException, IOException {
-        if (request.getParameter("san_pham_id") == null) {
+        IndexRequest req = IndexRequest.make(request.getParameterMap());
+        if (req.getIdSanPham() == null) {
             response.sendRedirect("/san-pham/index");
         } else {
-            int spId = Integer.parseInt(request.getParameter("san_pham_id"));
-            SanPham sp = this.spRepo.findById(spId);
-            List<SanPhamChiTietCustom> ds = this.spctRepo.findAllWithPropName(spId);
+            SanPham sp = this.spRepo.findById(req.getIdSanPham());
+            List<SanPhamChiTietCustom> ds = this.spctRepo.findAllWithPropName(req);
             request.setAttribute("data", ds);
             request.setAttribute("sanPham", sp);
+            request.setAttribute("errors", req.getErrors());
             request.getRequestDispatcher("/views/san_pham_chi_tiet/index.jsp")
                     .forward(request, response);
         }

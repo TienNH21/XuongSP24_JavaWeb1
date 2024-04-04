@@ -4,6 +4,7 @@ import entities.SanPhamChiTiet;
 import entities.custom_entity.SanPhamChiTietCustom;
 import jakarta.persistence.Query;
 import org.hibernate.Session;
+import requests.spct.IndexRequest;
 import utils.HibernateUtil;
 
 import java.sql.PreparedStatement;
@@ -33,6 +34,38 @@ public class SanPhamChiTietRepository {
 
         Query q = this.hSession.createQuery(jpql, SanPhamChiTiet.class);
         q.setParameter(1, spId);
+        return q.getResultList();
+    }
+
+    public List<SanPhamChiTietCustom> findAllWithPropName(IndexRequest params) {
+        ArrayList<SanPhamChiTietCustom> ds = new ArrayList<>();
+        String jpql = "SELECT new SanPhamChiTietCustom( " +
+                "spct.id, ms.ten, kt.ten, spct.maSPCT, " +
+                "spct.soLuong, spct.donGia, spct.trangThai) " +
+                "FROM SanPhamChiTiet spct " +
+                "LEFT OUTER JOIN MauSac ms ON spct.idMauSac = ms.id " +
+                "LEFT OUTER JOIN KichThuoc kt ON spct.idKichThuoc = kt.id " +
+                "WHERE spct.idSanPham = :idSanPham ";
+
+        if (params.getKeyword() != null) {
+            jpql += " AND (spct.maSPCT LIKE :keyword OR ms.ten LIKE :keyword OR kt.ten LIKE :keyword) ";
+        }
+
+        if (params.getTrangThai() != null) {
+            jpql += " AND spct.trangThai = :trangThai ";
+        }
+
+        System.out.println(jpql);
+        Query q = this.hSession.createQuery(jpql, SanPhamChiTiet.class);
+        q.setParameter("idSanPham", params.getIdSanPham());
+
+        if (params.getKeyword() != null) {
+            q.setParameter("keyword", "%" + params.getKeyword() + "%");
+        }
+
+        if (params.getTrangThai() != null) {
+            q.setParameter("trangThai", params.getTrangThai());
+        }
         return q.getResultList();
     }
 }

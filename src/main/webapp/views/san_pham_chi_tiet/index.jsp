@@ -43,6 +43,52 @@
     </div>
 </nav>
 
+
+<c:if test="${ errros.get('idSanPham') != null }">
+    <div class="alert alert-danger">
+            ${errros.get('idSanPham')}
+    </div>
+</c:if>
+
+<div class="mt-5 col-10 offset-1">
+    <form method="get" action="/sp-chi-tiet/index">
+        <input type="hidden" name="san_pham_id" value="${sanPham.id}" />
+        <div class="row">
+            <div class="col-6">
+                <label for="">Từ khóa</label>
+                <input type="text" name="keyword" class="form-control" />
+                <c:if test="${ errros.get('keyword') != null }">
+                        <span class="alert alert-danger">
+                                ${errros.get('keyword')}
+                        </span>
+                </c:if>
+            </div>
+            <div class="col-6">
+                <label for="">Trạng thái</label>
+                <div>
+                    <input type="radio" name="trangThai" class="form-check-input" id="rdoStatusActive" value="1" />
+                    <label for="rdoStatusActive">Đang hoạt động</label>
+                    <input type="radio" name="trangThai" class="form-check-input" id="rdoStatusInactive" value="0" />
+                    <label for="rdoStatusInactive">Ngừng hoạt động</label>
+                    <c:if test="${ errros.get('trangThai') != null }">
+                        <span class="alert alert-danger">
+                                ${errros.get('trangThai')}
+                        </span>
+                    </c:if>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex align-items-center justify-content-center col-6 offset-3 mt-2">
+            <div class="col-6 flex-row-reverse">
+                <button class="btn btn-primary">Tìm kiếm</button>
+            </div>
+            <div class="col-6">
+                <a class="btn btn-light" href="/sp-chi-tiet/index?san_pham_id=${sanPham.id}">Làm mới</a>
+            </div>
+        </div>
+    </form>
+</div>
+
 <div class="mt-5 col-10 offset-1">
     <a href="#" class="btn btn-success">Thêm mới</a>
     <table class="table table-stripped">
