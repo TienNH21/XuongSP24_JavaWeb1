@@ -1,9 +1,12 @@
 package requests.spct;
 
+import entities.SanPham;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import repositories.jdbc.SanPhamRepository;
+import repositories.jpa.SanPhamChiTietRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +26,8 @@ public class IndexRequest {
 
     public static IndexRequest make(Map<String, String[]> requestParams)
     {
+        SanPhamRepository spRepo = new SanPhamRepository();
+
         String[] s0 = requestParams.get("san_pham_id");
         String[] s1 = requestParams.get("keyword");
         String[] s2 = requestParams.get("trangThai");
@@ -38,7 +43,12 @@ public class IndexRequest {
         } else {
             try {
                 idSanPham = Integer.parseInt(s0[0].trim());
-            } catch (NumberFormatException e) {
+                SanPham sp = spRepo.findById(idSanPham);
+
+                if (sp == null) {
+                    new Exception();
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
                 errors.put("trangThai", "Sản phẩm không hợp lệ.");
             }
@@ -53,17 +63,17 @@ public class IndexRequest {
         }
 
         try {
-            page = (s3 == null || s3[0].trim().length() == 0) ? null : Integer.parseInt(s3[0].trim());
+            page = (s3 == null || s3[0].trim().length() == 0) ? 1 : Integer.parseInt(s3[0].trim());
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            errors.put("trangThai", "Số trang không hợp lệ");
+            errors.put("page", "Số trang không hợp lệ");
         }
 
         try {
-            limit = (s4 == null || s4[0].trim().length() == 0) ? null : Integer.parseInt(s4[0].trim());
+            limit = (s4 == null || s4[0].trim().length() == 0) ? 10 : Integer.parseInt(s4[0].trim());
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            errors.put("trangThai", "Giới hạn trang không hợp lệ");
+            errors.put("limit", "Giới hạn trang không hợp lệ");
         }
 
         return new IndexRequest(idSanPham, keyword, trangThai, page, limit, errors);

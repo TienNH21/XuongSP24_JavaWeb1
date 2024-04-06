@@ -47,6 +47,8 @@ public class SanPhamChiTietRepository {
                 "LEFT OUTER JOIN KichThuoc kt ON spct.idKichThuoc = kt.id " +
                 "WHERE spct.idSanPham = :idSanPham ";
 
+        // SELECT entity FROM SanPhamChiTiet entity
+
         if (params.getKeyword() != null) {
             jpql += " AND (spct.maSPCT LIKE :keyword OR ms.ten LIKE :keyword OR kt.ten LIKE :keyword) ";
         }
@@ -66,6 +68,11 @@ public class SanPhamChiTietRepository {
         if (params.getTrangThai() != null) {
             q.setParameter("trangThai", params.getTrangThai());
         }
+
+        int start = (params.getPage() - 1) * params.getLimit() + 1;
+        q.setFirstResult(start);
+        q.setMaxResults(params.getLimit());
+
         return q.getResultList();
     }
 }
